@@ -21,11 +21,16 @@ app.post('/usuarios', async (req, res) => {
     console.log('user:'+usuario+' pass: '+password)
     const query = `SELECT * FROM usuario WHERE usuario = '${usuario}' AND password = '${password}';`
     console.log(query)
-    const { rows } = await pool.query(query);
-    if (rows.length === 0) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+    try {
+      const { rows } = await pool.query(query);
+      if (rows.length === 0) {
+        return res.status(401).json({ error: 'Credenciales inválidas' });
+      } else {
+        return res.json({ message: 'Autenticación exitosa' });
+      }
+    } catch (error) {
+      return res.status(500).json({ error: 'Error al obtener el usuario' });
     }
-    return res.json({ message: 'Autenticación exitosa' });
 
 });
 
