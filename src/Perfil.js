@@ -5,6 +5,7 @@ import axios from 'axios';
 function Perfil() {
   const { usuario } = useParams();
   const [cliente, setCliente] = useState(null);
+  const [cuenta, setCuenta] = useState(null);
   const [editedCliente, setEditedCliente] = useState(null);
 
   useEffect(() => {
@@ -13,13 +14,17 @@ function Perfil() {
 
   const fetchCliente = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/clientes/${usuario}`);
-      setCliente(response.data);
-      setEditedCliente(response.data);
+      const clienteResponse = await axios.get(`http://localhost:3001/clientes/${usuario}`);
+      const cuentaResponse = await axios.get(`http://localhost:3001/cuentas/${usuario}`);
+  
+      setCliente(clienteResponse.data);
+      setEditedCliente(clienteResponse.data);
+      setCuenta(cuentaResponse.data);
     } catch (error) {
-      console.error('Error al obtener el cliente', error);
+      console.error('Error al obtener el cliente y la cuenta', error);
     }
   };
+  
 
   const handleInputChange = (e) => {
     setEditedCliente({
@@ -47,7 +52,7 @@ function Perfil() {
             <div>
             <form onSubmit={handleSubmit}>
                 <p>
-                Usuario: <input type="text" name="usuario" value={editedCliente.usuario} onChange={handleInputChange} />
+                Usuario: <input type="text" name="usuario" value={editedCliente.usuario} onChange={handleInputChange} disabled />
                 </p>
                 <p>
                 Nombre: <input type="text" name="nombre" value={editedCliente.nombre} onChange={handleInputChange} />
@@ -94,6 +99,16 @@ function Perfil() {
             </div>
         ) : (
             <p>Cargando cliente...</p>
+        )}
+        {cuenta ? (
+        <div>
+            <h2>Información de la cuenta</h2>
+            <p>Número de cuenta: {cuenta.numeroCuenta}</p>
+            <p>Saldo: {cuenta.saldo}</p>
+            {/* Agrega más campos de la cuenta según la estructura de datos */}
+        </div>
+        ) : (
+        <p>Cargando cuenta...</p>
         )}
     </div>
   );

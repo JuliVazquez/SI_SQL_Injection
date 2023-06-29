@@ -29,7 +29,6 @@ function Clientes() {
             <th>Nombre</th>
             <th>Apellido</th>
             {/* Otros campos de la tabla */}
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
