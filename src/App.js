@@ -4,6 +4,7 @@ import Login from './Login';
 import Home from './Home';
 import Clientes from './Clientes';
 import Perfil from './Perfil';
+import Search from './Search';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/clientes" element={<Clientes />} />
           <Route path="/perfil/:usuario" element={<Perfil />} />
+          <Route path="/Search" element={<Search/>}/>
         </Routes>
       </Router>
     </div>

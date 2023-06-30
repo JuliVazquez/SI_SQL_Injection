@@ -12,6 +12,9 @@ function Home() {
       <Link to="/clientes">
         <button>Clientes</button>
       </Link>
+      <Link to="/Search"> 
+        <button>Buscar</button>
+      </Link>
     </div>
   );
 }

@@ -11,8 +11,23 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'timbeta',
-  password: 'A77aque99.',
+  password: 'root',
   port: 5432, // El puerto por defecto de PostgreSQL es 5432
+});
+
+
+app.get('/buscar', async (req, res) => {
+  const { query } = req.query;
+  
+  try {
+    const searchQuery = `SELECT * FROM sys_user WHERE usuario LIKE '%${query}%';`;
+    const { rows } = await pool.query(searchQuery);
+    
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al buscar usuarios', error);
+    res.status(500).json({ error: 'Error al buscar usuarios' });
+  }
 });
 
 app.post('/usuarios', async (req, res) => {
@@ -61,6 +76,8 @@ app.get('/clientes/:usuario', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener el cliente' });
   }
 });
+
+
 
 app.get('/cuentas/:usuario', async (req, res) => {
   const cuenta = req.params.usuario;
@@ -127,6 +144,9 @@ app.put('/clientes/:usuario', async (req, res) => {
     res.status(500).json({ error: 'Error al actualizar el cliente' });
   }
 });
+
+
+
 
 const port = 3001;
 app.listen(port, () => {
