@@ -1,5 +1,4 @@
 const express = require('express');
-const { Pool } = require('pg');
 const cors = require('cors');
 
 const app = express();
@@ -7,14 +6,7 @@ app.use(express.json());
 app.use(cors());
 
 
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'timbeta',
-  password: 'root',
-  port: 5432, // El puerto por defecto de PostgreSQL es 5432
-});
-
+const pool = require('./dbconfig');
 
 app.get('/buscar', async (req, res) => {
   const { query } = req.query;
