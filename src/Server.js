@@ -1,12 +1,29 @@
 const express = require('express');
 const cors = require('cors');
-
+const bcrypt = require('bcrypt');
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 
 const pool = require('./dbconfig');
+const schemas = require('./schemas');
+
+const startServer = () => {
+  const port = 3001;
+  app.listen(port, () => {
+    console.log(`Servidor backend en funcionamiento en http://localhost:${port}`);
+  });
+};
+
+schemas(pool)
+.then(() => {
+  console.log('Esquemas creados exitosamente');
+  startServer();
+})
+.catch(error => {
+  console.error('Error al crear los esquemas:', error);
+});
 
 app.get('/buscar', async (req, res) => {
   const { query } = req.query;
@@ -27,6 +44,8 @@ app.post('/usuarios', async (req, res) => {
     console.log('user:'+usuario+' pass: '+password)
     const query = `SELECT * FROM sys_user WHERE usuario = '${usuario}' AND password = '${password}';`
     console.log(query)
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // console.log(hashedPassword)
     try {
       const { rows } = await pool.query(query);
       if (rows.length === 0) {
@@ -135,12 +154,4 @@ app.put('/clientes/:usuario', async (req, res) => {
     console.error('Error al actualizar el cliente', error);
     res.status(500).json({ error: 'Error al actualizar el cliente' });
   }
-});
-
-
-
-
-const port = 3001;
-app.listen(port, () => {
-  console.log(`Servidor backend en funcionamiento en http://localhost:${port}`);
 });
