@@ -42,7 +42,7 @@ const createTables = async () => {
     `);
 
     await pool.query(`
-        INSERT INTO sys_user VALUES ('admin', 'serelagatabajolalluvia');
+        INSERT INTO sys_user VALUES ('admin', 'admin2');
         INSERT INTO sys_user VALUES ('test', 'test');
         INSERT INTO sys_user VALUES ('julian', '1234');
     `);

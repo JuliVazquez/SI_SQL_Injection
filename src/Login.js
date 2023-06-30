@@ -19,6 +19,7 @@ function Login() {
   
       if (response.status === 200 && response.data.message === 'Autenticación exitosa') {
          console.log('Autenticación exitosa');
+         localStorage.setItem('loggedInUser', usuario); 
          navigate('/home');
       } else {
         setError(null); // Reiniciar el estado de error

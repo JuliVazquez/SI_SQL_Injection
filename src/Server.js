@@ -1,13 +1,22 @@
 const express = require('express');
 const cors = require('cors');
-const bcrypt = require('bcrypt');
+const session = require('express-session');
 const app = express();
 app.use(express.json());
 app.use(cors());
-
+app.use(session({
+  secret: 'secreto', // Cambia esto por una cadena secreta más segura
+  resave: false,
+  saveUninitialized: true
+}));
 
 const pool = require('./dbconfig');
 const schemas = require('./schemas');
+app.use(session({
+  secret: 'secreto', // Cambia esto por una cadena secreta más segura
+  resave: false,
+  saveUninitialized: true
+}));
 
 const startServer = () => {
   const port = 3001;
@@ -44,13 +53,12 @@ app.post('/usuarios', async (req, res) => {
     console.log('user:'+usuario+' pass: '+password)
     const query = `SELECT * FROM sys_user WHERE usuario = '${usuario}' AND password = '${password}';`
     console.log(query)
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // console.log(hashedPassword)
     try {
       const { rows } = await pool.query(query);
       if (rows.length === 0) {
         return res.status(401).json({ error: 'Credenciales inválidas' });
       } else {
+        req.session.loggedInUser = usuario;
         return res.json({ message: 'Autenticación exitosa' });
       }
     } catch (error) {
