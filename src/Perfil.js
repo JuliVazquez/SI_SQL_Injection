@@ -7,6 +7,8 @@ function Perfil() {
   const [cliente, setCliente] = useState(null);
   const [cuenta, setCuenta] = useState(null);
   const [editedCliente, setEditedCliente] = useState(null);
+  const [retiro, setRetiro] = useState('');
+  const [acreditacion, setAcreditacion] = useState('');
 
   useEffect(() => {
     fetchCliente();
@@ -42,6 +44,41 @@ function Perfil() {
     } catch (error) {
       console.error('Error al actualizar el cliente', error);
     }
+  };
+
+  const handleRetiro = () => {
+    const saldoActual = cuenta.saldo;
+    const retiroAmount = parseFloat(retiro);
+  
+    if (retiroAmount <= saldoActual) {
+      const saldoActualizado = saldoActual - retiroAmount;
+      const fecha = new Date().toLocaleDateString();
+  
+      alert(`Se ha cargado una orden de transferencia:
+      CBU: ${cliente.cbu}
+      IMPORTE: ${retiroAmount.toString()}
+      FECHA: ${fecha}`);
+  
+      setCuenta({
+        ...cuenta,
+        saldo: saldoActualizado
+      });
+    } else {
+      alert('No tienes suficiente saldo para retirar esa cantidad');
+    }
+  
+    setRetiro('');
+  };
+  
+  const handleAcreditacion = () => {
+    const saldoActual = cuenta.saldo;
+    const acreditacionAmount = parseFloat(acreditacion);
+  
+    const saldoActualizado = saldoActual + acreditacionAmount;
+    setCuenta({
+      ...cuenta,
+      saldo: saldoActualizado.toString()
+    });
   };
 
   return (
@@ -103,9 +140,22 @@ function Perfil() {
         {cuenta ? (
         <div>
             <h2>Información de la cuenta</h2>
-            <p>Número de cuenta: {cuenta.numeroCuenta}</p>
+            <p>Número de cuenta: {cuenta.nrocuenta}</p>
             <p>Saldo: {cuenta.saldo}</p>
             {/* Agrega más campos de la cuenta según la estructura de datos */}
+            <div>
+              <h3>Operaciones</h3>
+              <div>
+                <label htmlFor="retiro">Retirar:</label>
+                <input type="number" name="retiro" id="retiro" value={retiro} onChange={(e) => setRetiro(e.target.value)} />
+                <button type="button" onClick={handleRetiro}>Retirar</button>
+              </div>
+              <div>
+                <label htmlFor="acreditacion">Acreditar:</label>
+                <input type="number" name="acreditacion" id="acreditacion" value={acreditacion} onChange={(e) => setAcreditacion(e.target.value)} />
+                <button type="button" onClick={handleAcreditacion}>Acreditar</button>
+              </div>
+            </div>
         </div>
         ) : (
         <p>Cargando cuenta...</p>
