@@ -4,14 +4,23 @@
   }
   
   .perfil-form {
+    display: flex;
     flex-direction: column;
+  }
+  
+  .perfil-form .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .perfil-form label {
+    font-weight: bold;
   }
   
   .perfil-form input {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 100%; /* Todos los inputs ocupan el ancho completo */
+    width: 100%;
   }
   
   .perfil-form button {
@@ -21,5 +30,64 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+  
+  .cuenta-container {
+    margin-top: 20px;
+  }
+  
+  .cuenta-details p {
+    margin-bottom: 10px;
+  }
+  
+  .operaciones-container {
+    margin-top: 20px;
+  }
+  
+  .operaciones-details .operacion-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .operaciones-details .operacion-item label {
+    margin-right: 10px;
+  }
+  
+  .operaciones-details .operacion-item input {
+    width: 100px;
+    margin-right: 10px;
+  }
+  
+  .operacion-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .amigos-container {
+    margin-top: 20px;
+  }
+  
+  .amigos-list li {
+    margin-bottom: 5px;
+  }
+  
+  /* Añade este estilo al CSS existente */
+.saldo-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  .saldo-label {
+    font-weight: bold;
+  }
+  
+  .saldo-value {
+    margin-top: 5px;
   }
   

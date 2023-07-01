@@ -98,94 +98,112 @@ function Perfil() {
       <h1>Perfil del Cliente</h1>
       <Link to="/clientes">Volver</Link>
 
-        {cliente ? (
-            <div>
-             <form className="perfil-form" onSubmit={handleSubmit}>
-                <p>
-                Usuario: <input type="text" name="usuario" value={editedCliente.usuario} onChange={handleInputChange} disabled />
-                </p>
-                <p>
-                Nombre: <input type="text" name="nombre" value={editedCliente.nombre} onChange={handleInputChange} />
-                </p>
-                <p>
-                Apellido: <input type="text" name="apellido" value={editedCliente.apellido} onChange={handleInputChange} />
-                </p>
-                <p>
-                País: <input type="text" name="pais" value={editedCliente.pais} onChange={handleInputChange} />
-                </p>
-                <p>
-                Provincia: <input type="text" name="provincia" value={editedCliente.provincia} onChange={handleInputChange} />
-                </p>
-                <p>
-                Ciudad: <input type="text" name="ciudad" value={editedCliente.ciudad} onChange={handleInputChange} />
-                </p>
-                <p>
-                Calle: <input type="text" name="calle" value={editedCliente.calle} onChange={handleInputChange} />
-                </p>
-                <p>
-                Altura: <input type="number" name="altura" value={editedCliente.altura} onChange={handleInputChange} />
-                </p>
-                <p>
-                Departamento: <input type="text" name="departamento" value={editedCliente.departamento} onChange={handleInputChange} />
-                </p>
-                <p>
-                Teléfono: <input type="text" name="telefono" value={editedCliente.telefono} onChange={handleInputChange} />
-                </p>
-                <p>
-                DNI: <input type="text" name="dni" value={editedCliente.dni} onChange={handleInputChange} />
-                </p>
-                <p>
-                CUIT: <input type="text" name="cuit" value={editedCliente.cuit} onChange={handleInputChange} />
-                </p>
-                <p>
-                Email: <input type="text" name="email" value={editedCliente.email} onChange={handleInputChange} />
-                </p>
-                <p>
-                CBU: <input type="text" name="cbu" value={editedCliente.cbu} onChange={handleInputChange} />
-                </p>
-                <button type="submit"  className="home-button" >Guardar</button>
-
-              </form>
+      {cliente ? (
+        <div className="perfil-info">
+          <form className="perfil-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="usuario">Usuario:</label>
+              <input type="text" name="usuario" id="usuario" value={editedCliente.usuario} onChange={handleInputChange} disabled />
             </div>
-        ) : (
-            <p>Cargando cliente...</p>
-        )}
-        
-        {cuenta ? (
-        <div>
-            <h2>Información de la cuenta</h2>
+            <div className="form-group">
+              <label htmlFor="nombre">Nombre:</label>
+              <input type="text" name="nombre" id="nombre" value={editedCliente.nombre} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="apellido">Apellido:</label>
+              <input type="text" name="apellido" id="apellido" value={editedCliente.apellido} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="pais">País:</label>
+              <input type="text" name="pais" id="pais" value={editedCliente.pais} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="provincia">Provincia:</label>
+              <input type="text" name="provincia" id="provincia" value={editedCliente.provincia} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="ciudad">Ciudad:</label>
+              <input type="text" name="ciudad" id="ciudad" value={editedCliente.ciudad} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="calle">Calle:</label>
+              <input type="text" name="calle" id="calle" value={editedCliente.calle} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="altura">Altura:</label>
+              <input type="number" name="altura" id="altura" value={editedCliente.altura} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="departamento">Departamento:</label>
+              <input type="text" name="departamento" id="departamento" value={editedCliente.departamento} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="telefono">Teléfono:</label>
+              <input type="text" name="telefono" id="telefono" value={editedCliente.telefono} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="dni">DNI:</label>
+              <input type="text" name="dni" id="dni" value={editedCliente.dni} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="cuit">CUIT:</label>
+              <input type="text" name="cuit" id="cuit" value={editedCliente.cuit} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input type="text" name="email" id="email" value={editedCliente.email} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="cbu">CBU:</label>
+              <input type="text" name="cbu" id="cbu" value={editedCliente.cbu} onChange={handleInputChange} />
+            </div>
+            <button type="submit" className="home-button">Guardar</button>
+          </form>
+        </div>
+      ) : (
+        <p>Cargando cliente...</p>
+      )}
+
+      {cuenta ? (
+        <div className="cuenta-container">
+          <h2>Información de la cuenta</h2>
+          <div className="cuenta-details">
             <p>Número de cuenta: {cuenta.nrocuenta}</p>
-            <p>Saldo: {cuenta.saldo}</p>
-            {/* Agrega más campos de la cuenta según la estructura de datos */}
-            <div>
-              <h3>Operaciones</h3>
-              <div>
+            <div className="saldo-container">
+              <p className="saldo-label">Saldo:</p>
+              <p className="saldo-value">{cuenta.saldo}</p>
+            </div>
+          </div>
+          <div className="operaciones-container">
+            <h3>Operaciones</h3>
+            <div className="operaciones-details">
+              <div className="operacion-item">
                 <label htmlFor="retiro">Retirar:</label>
                 <input type="number" name="retiro" id="retiro" value={retiro} onChange={(e) => setRetiro(e.target.value)} />
-                <button type="button" onClick={handleRetiro}>Retirar</button>
+                <button type="button" className="operacion-button" onClick={handleRetiro}>Retirar</button>
               </div>
-              <div>
+              <div className="operacion-item">
                 <label htmlFor="acreditacion">Acreditar:</label>
                 <input type="number" name="acreditacion" id="acreditacion" value={acreditacion} onChange={(e) => setAcreditacion(e.target.value)} />
-                <button type="button" onClick={handleAcreditacion}>Acreditar</button>
+                <button type="button" className="operacion-button" onClick={handleAcreditacion}>Acreditar</button>
               </div>
             </div>
+          </div>
         </div>
-        ) : (
+      ) : (
         <p>Cargando cuenta...</p>
-        )}  
+      )}
 
-       {amigos && amigos.length > 0 && (
-          <div>
-            <h2>Amigos</h2>
-            <ul>
-              {amigos.map((amigo) => (
-                <li key={amigo.usuario2}>{amigo.usuario2}</li>
-              ))}
-            </ul>
-          </div> 
-        )}
-
+      {amigos && amigos.length > 0 && (
+        <div className="amigos-container">
+          <h2>Amigos</h2>
+          <ul className="amigos-list">
+            {amigos.map((amigo) => (
+              <li key={amigo.usuario2}>{amigo.usuario2}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

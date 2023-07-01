@@ -38,7 +38,7 @@ app.get('/buscar', async (req, res) => {
   const { query } = req.query;
   
   try {
-    const searchQuery = `SELECT * FROM sys_user WHERE usuario LIKE '%${query}%' and usuario<>'admin';`;
+    const searchQuery = `SELECT sys_user.usuario,nombre FROM sys_user LEFT JOIN cliente on sys_user.usuario=cliente.usuario WHERE sys_user.usuario LIKE '%${query}%' and sys_user.usuario<>'admin';`;
     const { rows } = await pool.query(searchQuery);
     
     res.json(rows);
@@ -117,7 +117,7 @@ app.get('/cuentas/:usuario', async (req, res) => {
 
 app.get('/amigos/:usuario', async (req, res) => {
   const usuario = req.params.usuario;
-  const query = `SELECT * FROM friendship WHERE usuario1 = $1;`;
+  const query = `SELECT * FROM friendship LEFT JOIN cliente ON WHERE usuario1 = $1;`;
   
   try {
     const { rows } = await pool.query(query, [usuario]);
