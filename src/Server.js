@@ -38,7 +38,7 @@ app.get('/buscar', async (req, res) => {
   const { query } = req.query;
   
   try {
-    const searchQuery = `SELECT * FROM sys_user WHERE usuario LIKE '%${query}%';`;
+    const searchQuery = `SELECT * FROM sys_user WHERE usuario LIKE '%${query}%' and usuario<>'admin';`;
     const { rows } = await pool.query(searchQuery);
     
     res.json(rows);
@@ -96,8 +96,6 @@ app.get('/clientes/:usuario', async (req, res) => {
   }
 });
 
-
-
 app.get('/cuentas/:usuario', async (req, res) => {
   const cuenta = req.params.usuario;
 
@@ -116,6 +114,20 @@ app.get('/cuentas/:usuario', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener el cuenta' });
   }
 });
+
+app.get('/amigos/:usuario', async (req, res) => {
+  const usuario = req.params.usuario;
+  const query = `SELECT * FROM friendship WHERE usuario1 = $1;`;
+  
+  try {
+    const { rows } = await pool.query(query, [usuario]);
+    return res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener los amigos del usuario', error);
+    res.status(500).json({ error: 'Error al obtener los amigos del usuario' });
+  }
+});
+
 
 app.put('/clientes/:usuario', async (req, res) => {
   const usuario = req.params.usuario;
@@ -156,8 +168,8 @@ app.put('/clientes/:usuario', async (req, res) => {
     ];
 
     await pool.query(query, values);
-
     res.json({ message: 'Cliente actualizado' });
+
   } catch (error) {
     console.error('Error al actualizar el cliente', error);
     res.status(500).json({ error: 'Error al actualizar el cliente' });

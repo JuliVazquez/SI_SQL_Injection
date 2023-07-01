@@ -5,6 +5,7 @@ const createTables = async () => {
     await pool.query('DROP TABLE IF EXISTS cuenta CASCADE;');
     await pool.query('DROP TABLE IF EXISTS cliente CASCADE;');
     await pool.query('DROP TABLE IF EXISTS sys_user CASCADE;');
+    await pool.query('DROP TABLE IF EXISTS friendship CASCADE;');
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS sys_user (
@@ -42,14 +43,27 @@ const createTables = async () => {
     `);
 
     await pool.query(`
-        INSERT INTO sys_user VALUES ('admin', 'admin2');
-        INSERT INTO sys_user VALUES ('test', 'test');
-        INSERT INTO sys_user VALUES ('julian', '1234');
+      CREATE TABLE friendship (
+        usuario1 char(25) NOT NULL,
+        usuario2 char(25) NOT NULL
+      );
+    `);
+
+    await pool.query(`
+        INSERT INTO sys_user VALUES ('admin', 'admin');
+        INSERT INTO sys_user VALUES ('juanperez', '1234');
+        INSERT INTO sys_user VALUES ('lauFe91', 'BAGUVIX');
+        INSERT INTO sys_user VALUES ('Charly67', 'charlycharli44te');
+        INSERT INTO sys_user VALUES ('AnFe', 'AEZAKMI');
+        INSERT INTO sys_user VALUES ('MRodriguez2', '09.12.18.BERNABEU');
+        INSERT INTO sys_user VALUES ('AnLo', 'HESOYAM');
+        INSERT INTO sys_user VALUES ('Luc14L0P3Z', 'IAVENJQ ');
+        INSERT INTO sys_user VALUES ('usuarioP', 'UZUMYMW');
     `);
 
     await pool.query(`
         INSERT INTO cliente (usuario, nombre, apellido, pais, provincia, ciudad, calle, altura, departamento, telefono, dni, cuit, email, cbu)
-        VALUES ('JPrzz123', 'Juan', 'Pérez', 'Argentina', 'Buenos Aires', 'Ciudad Autónoma de Buenos Aires', 'Avenida Corrientes', 1234, '2A', '1130556673', '12345678', '20123456780', 'juan@example.com', '1234567890123456789012');
+        VALUES ('juanperez', 'Juan', 'Pérez', 'Argentina', 'Buenos Aires', 'Ciudad Autónoma de Buenos Aires', 'Avenida Corrientes', 1234, '2A', '1130556673', '12345678', '20123456780', 'juan@example.com', '1234567890123456789012');
 
         INSERT INTO cliente (usuario, nombre, apellido, pais, provincia, ciudad, calle, altura, departamento, telefono, dni, cuit, email, cbu)
         VALUES ('lauFe91', 'María', 'González', 'Argentina', 'Buenos Aires', 'La Plata', 'Calle 7', 432, 'B', '1145678901', '87654321', '27123456789', 'maria@example.com', '0987654321098765432109');
@@ -67,7 +81,7 @@ const createTables = async () => {
         VALUES ('AnLo', 'Ana', 'López', 'Argentina', 'Santa Fe', 'Rosario', 'Calle San Juan', 456, 'F', '1189012345', '98765432', '21123456789', 'ana@example.com', '0123456789012345678901');
 
         INSERT INTO cliente (usuario, nombre, apellido, pais, provincia, ciudad, calle, altura, departamento, telefono, dni, cuit, email, cbu)
-        VALUES ('usuario7', 'Pedro', 'García', 'Argentina', 'Buenos Aires', 'Lomas de Zamora', 'Avenida Hipólito Yrigoyen', 9876, 'G', '1190123456', '87654321', '22123456789', 'pedro@example.com', '1234567890123456789012');
+        VALUES ('usuarioP', 'Pedro', 'García', 'Argentina', 'Buenos Aires', 'Lomas de Zamora', 'Avenida Hipólito Yrigoyen', 9876, 'G', '1190123456', '87654321', '22123456789', 'pedro@example.com', '1234567890123456789012');
 
         INSERT INTO cliente (usuario, nombre, apellido, pais, provincia, ciudad, calle, altura, departamento, telefono, dni, cuit, email, cbu)
         VALUES ('Luc14L0P3Z', 'Lucía', 'López', 'Argentina', 'Buenos Aires', 'Tigre', 'Calle Mendoza', 321, 'H', '1123456789', '76543210', '23123456789', 'lucia@example.com', '2345678901234567890123');
@@ -75,7 +89,7 @@ const createTables = async () => {
 
     await pool.query(`
         INSERT INTO cuenta (usuario, nroCuenta, saldo)
-        VALUES ('JPrzz123', '00000000000567346122', 15000.00);
+        VALUES ('juanperez', '00000000000567346122', 15000.00);
 
         INSERT INTO cuenta (usuario, nroCuenta, saldo)
         VALUES ('lauFe91', '00000000000441870667', 10000.00);
@@ -93,10 +107,58 @@ const createTables = async () => {
         VALUES ('AnLo', '00000000000022387765', 1500.25);
 
         INSERT INTO cuenta (usuario, nroCuenta, saldo)
-        VALUES ('usuario7', '00000000000012233654', 15000.00);
+        VALUES ('usuarioP', '00000000000012233654', 15000.00);
 
         INSERT INTO cuenta (usuario, nroCuenta, saldo)
         VALUES ('Luc14L0P3Z', '00000000000778555712', 1000.50);
+    `);
+
+    await pool.query(`
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('juanperez', 'AnFe');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('lauFe91', 'AnFe');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('Charly67', 'AnLo');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('AnLo', 'Luc14L0P3Z');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('MRodriguez2', 'usuarioP');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('usuarioP', 'PedroG');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('Luc14L0P3Z', 'juanperez');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('juanperez', 'Luc14L0P3Z');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('AnFe', 'MRodriguez2');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('Charly67', 'lauFe91');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('AnLo', 'juanperez');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('lauFe91', 'MRodriguez2');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('Luc14L0P3Z', 'AnLo');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('MRodriguez2', 'AnFe');
+        
+        INSERT INTO friendship (usuario1, usuario2)
+        VALUES ('PedroG', 'lauFe91');
+        
     `);
 
     console.log('Tables created successfully!');

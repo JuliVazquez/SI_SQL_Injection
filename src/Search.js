@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Search = () => {
@@ -18,15 +19,17 @@ const Search = () => {
     
       return (
         <div>
-          <h2>Buscador de Usuarios</h2>
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ingrese el nombre de usuario"
-          />
-          <button onClick={handleSearch}>Buscar</button>
-    
+          <h1>Buscador de Usuarios</h1>
+          <Link to="/home">Volver</Link>
+          <div>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Ingrese el nombre de usuario"
+            />
+            <button onClick={handleSearch}>Buscar</button>
+          </div>
           <div>
             <h3>Resultados de la búsqueda:</h3>
             {results.map((usuario) => (
@@ -34,6 +37,7 @@ const Search = () => {
                 <p>Nombre de usuario: {usuario.usuario}</p>
                 <p>Nombre: {usuario.nombre}</p>
                 <p>Apellido: {usuario.apellido}</p>
+                <button>Solicitar amistad</button>
                 <hr />
               </div>
             ))}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
+import '../src/css/Login.css'
 
 function Login() {
   const [usuario, setUsuario] = useState('');
@@ -10,17 +11,17 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post('http://localhost:3001/usuarios', {
         usuario: usuario,
         password: password
       });
-  
+
       if (response.status === 200 && response.data.message === 'Autenticación exitosa') {
-         console.log('Autenticación exitosa');
-         localStorage.setItem('loggedInUser', usuario); 
-         navigate('/home');
+        console.log('Autenticación exitosa');
+        localStorage.setItem('loggedInUser', usuario); 
+        navigate('/home');
       } else {
         setError(null); // Reiniciar el estado de error
       }
@@ -33,36 +34,38 @@ function Login() {
       }
     }
   };
-  
+
   return (
     <div className="login-container">
-      <h1>Iniciar sesión</h1>
-      <form onSubmit={handleSubmit}>
-        {error && <p className="error-message">{error}</p>}
-        <div className="form-group">
-          <label htmlFor="usuario" className="form-label">usuario:</label>
-          <input
-            type="usuario"
-            id="usuario"
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
-            required
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password" className="form-label">Contraseña:</label>
-          <input
-            // type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="form-input"
-          />
-        </div>
-        <button type="submit" className="form-button">Iniciar sesión</button>
-      </form>
+      <h1 className="login-title">TIMBETA</h1>
+      <h1 className="login-subtitle">bets &amp; friends</h1>
+      <div className="form-container">
+        <form onSubmit={handleSubmit}>
+          {error && <p className="error-message">{error}</p>}
+          <div className="form-group">
+            <label htmlFor="usuario" className="form-label">Usuario:</label>
+            <input
+              type="text"
+              id="usuario"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              required
+              className="form-input"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">Contraseña:</label>
+            <input
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="form-input"
+            />
+          </div>
+          <button type="submit" className="form-button">Iniciar sesión</button>
+        </form>
+      </div>
     </div>
   );
 }

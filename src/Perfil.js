@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import '../src/css/Perfil.css';
 
 function Perfil() {
   const { usuario } = useParams();
@@ -9,9 +10,11 @@ function Perfil() {
   const [editedCliente, setEditedCliente] = useState(null);
   const [retiro, setRetiro] = useState('');
   const [acreditacion, setAcreditacion] = useState('');
+  const [amigos, setAmigos] = useState([]);
 
   useEffect(() => {
     fetchCliente();
+    fetchAmigos();
   }, [usuario]);
 
   const fetchCliente = async () => {
@@ -27,6 +30,15 @@ function Perfil() {
     }
   };
   
+  const fetchAmigos = async () => {
+    try {
+      const amigosResponse = await axios.get(`http://localhost:3001/amigos/${usuario}`);
+      setAmigos(amigosResponse.data); // Corrección aquí
+      console.log(amigosResponse.data);
+    } catch (error) {
+      console.error('Error al obtener los amigos', error);
+    }
+  };
 
   const handleInputChange = (e) => {
     setEditedCliente({
@@ -40,7 +52,7 @@ function Perfil() {
     try {
       await axios.put(`http://localhost:3001/clientes/${usuario}`, editedCliente);
       setCliente(editedCliente);
-      console.log('Cliente actualizado:', editedCliente);
+     alert('Cliente actualizado:');
     } catch (error) {
       console.error('Error al actualizar el cliente', error);
     }
@@ -82,12 +94,13 @@ function Perfil() {
   };
 
   return (
-    <div>
+    <div className="perfil-container">
       <h1>Perfil del Cliente</h1>
-        <Link to="/clientes">Volver</Link> {/* Agrega el enlace para volver atrás */}
+      <Link to="/clientes">Volver</Link>
+
         {cliente ? (
             <div>
-            <form onSubmit={handleSubmit}>
+             <form className="perfil-form" onSubmit={handleSubmit}>
                 <p>
                 Usuario: <input type="text" name="usuario" value={editedCliente.usuario} onChange={handleInputChange} disabled />
                 </p>
@@ -130,13 +143,14 @@ function Perfil() {
                 <p>
                 CBU: <input type="text" name="cbu" value={editedCliente.cbu} onChange={handleInputChange} />
                 </p>
-                {/* Agregar más campos editables del cliente */}
-                <button type="submit">Guardar</button>
-            </form>
+                <button type="submit"  className="home-button" >Guardar</button>
+
+              </form>
             </div>
         ) : (
             <p>Cargando cliente...</p>
         )}
+        
         {cuenta ? (
         <div>
             <h2>Información de la cuenta</h2>
@@ -159,7 +173,19 @@ function Perfil() {
         </div>
         ) : (
         <p>Cargando cuenta...</p>
+        )}  
+
+       {amigos && amigos.length > 0 && (
+          <div>
+            <h2>Amigos</h2>
+            <ul>
+              {amigos.map((amigo) => (
+                <li key={amigo.usuario2}>{amigo.usuario2}</li>
+              ))}
+            </ul>
+          </div> 
         )}
+
     </div>
   );
 }
